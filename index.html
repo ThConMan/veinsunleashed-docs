@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exp Veins Unleashed - whole-vein XP mining for Paper</title>
+<meta name="description" content="Break one block and the whole vein pops for XP, then grows back on a timer. Which blocks, what they pay, where they generate and which worlds they apply to are all edited in game.">
+<meta property="og:title" content="Exp Veins Unleashed">
+<meta property="og:description" content="Break one block, the whole vein pops for XP, and it grows back. Configured entirely in game.">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top">
+      <span class="logo-mark" aria-hidden="true"><i class="mc mc-experience_bottle"></i></span>
+      <span>Exp&nbsp;Veins</span><span>Unleashed</span>
+    </a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#menu">The menu</a>
+      <a href="#blocks">Blocks</a>
+      <a href="#generation">Generation</a>
+      <a href="#worlds">Worlds</a>
+      <a href="#commands">Commands</a>
+      <a class="nav-download" href="#get">Get it</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+  <header class="plugin-hero">
+    <div class="runefield" aria-hidden="true">
+      <svg style="left:8%;top:62%;--s:22px;--dur:19s;--delay:0s;--peak:.45;--spin:30deg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg>
+      <svg style="left:19%;top:38%;--s:15px;--dur:23s;--delay:3s;--peak:.35;--spin:-24deg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2 2 22h20z"/></svg>
+      <svg style="left:31%;top:74%;--s:18px;--dur:17s;--delay:6s;--peak:.4;--spin:40deg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <svg style="left:68%;top:30%;--s:20px;--dur:21s;--delay:2s;--peak:.42;--spin:-32deg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 8 5v8l-8 5-8-5V8z"/></svg>
+      <svg style="left:81%;top:66%;--s:16px;--dur:25s;--delay:8s;--peak:.32;--spin:26deg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 12h16M12 4v16"/></svg>
+      <svg style="left:90%;top:44%;--s:24px;--dur:18s;--delay:11s;--peak:.38;--spin:-18deg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 22h20z"/></svg>
+      <svg style="left:47%;top:80%;--s:14px;--dur:27s;--delay:5s;--peak:.3;--spin:44deg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="12" cy="12" r="8"/></svg>
+    </div>
+
+    <div class="rune" aria-hidden="true"><i class="mc mc-experience_bottle"></i></div>
+
+    <p class="eyebrow">Paper 26.1+ &middot; Java and Bedrock</p>
+    <h1>Exp Veins <span class="glint-text">Unleashed</span></h1>
+    <p class="hero-copy">
+      Break one block of a seam and the whole thing pops at once, paying XP straight into
+      your bar. Then it grows back on its own timer. You pick which blocks count, what they
+      pay, and where they turn up &mdash; and you can change any of it <em>without stopping
+      the server</em>.
+    </p>
+    <div class="plugin-hero-meta">
+      <span class="hero-badge">Whole-vein breaks</span>
+      <span class="hero-badge">Configured in game</span>
+      <span class="hero-badge">Veins regrow</span>
+      <span class="hero-badge">Generates in new chunks</span>
+    </div>
+    <div class="hero-actions">
+      <a class="button primary" href="#get">Get Exp Veins Unleashed</a>
+      <a class="button secondary" href="#how">See how it works</a>
+    </div>
+  </header>
+
+  <div class="statband reveal">
+    <div><b>1</b><span>BREAK, THE WHOLE SEAM</span></div>
+    <div><b>0</b><span>RESTARTS TO RECONFIGURE</span></div>
+    <div><b>26.1+</b><span>PAPER, JAVA 25</span></div>
+  </div>
+
+  <section class="section" id="how">
+    <div class="section-heading reveal">
+      <p class="eyebrow">HOW IT WORKS</p>
+      <h2>One break, the whole seam</h2>
+      <p>Nothing here is on a scheduler or a scan loop. The work happens on the break that
+        started it, and the only thing left running afterwards is a timer.</p>
+    </div>
+
+    <div class="loop">
+      <div class="loop-step reveal" data-d="1">
+        <span class="step">01</span>
+        <h3>You break one block</h3>
+        <p>From there it follows blocks of the same type outward. They do not have to be
+          touching: a gap of two still counts as the same seam. A hard cap keeps one break
+          from running away with the server.</p>
+      </div>
+      <div class="loop-step reveal" data-d="2">
+        <span class="step">02</span>
+        <h3>The seam pays out at once</h3>
+        <p>The XP lands straight in your bar instead of dropping as orbs. Nothing to walk
+          over, and nobody can run in and scoop it up first. Fortune raises the payout, and
+          you can set Silk Touch to drop the blocks instead.</p>
+      </div>
+      <div class="loop-step reveal" data-d="3">
+        <span class="step">03</span>
+        <h3>It grows back</h3>
+        <p>Each block remembers its own timer, with a little randomness on top, so a seam
+          comes back in pieces rather than all in one go. Blocks only ever return into empty
+          air. If someone built there in the meantime, nothing gets overwritten.</p>
+      </div>
+    </div>
+
+    <div class="command-card reveal">
+      <code>/veins gui</code>
+      <span>Every change is written to <code>config.yml</code> and applied <b>immediately</b>.
+        No apply button, no reload step, no restart.</span>
+    </div>
+  </section>
+
+  <section class="section" id="menu">
+    <div class="split">
+      <div class="reveal">
+        <p class="eyebrow">THE MENU</p>
+        <h2>The config file, with a lid on it</h2>
+        <p style="color:var(--text-dim)">
+          Everything the plugin does is in here: which blocks count as veins, where they
+          generate, which worlds they apply to, what they pay, and what players see and hear
+          when a seam pops.
+        </p>
+        <p style="color:var(--text-dim)">
+          Anywhere the menu wants a block, hold that block on your cursor and click. It
+          reads what you are holding rather than making you spell out a material name.
+        </p>
+        <p class="fine-print">Editing the file by hand still works and the comments in it
+          survive being rewritten. <code>/veins reload</code> picks up changes made on disk.</p>
+      </div>
+
+      <div class="menu-mock card-surface reveal" data-d="1" role="img"
+           aria-label="The root config menu: five section icons spaced across the middle row of a chest menu.">
+        <p class="menu-title">Exp Veins - config</p>
+        <div class="menu-grid">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span class="world"><i class="mc mc-amethyst_cluster" title="Vein Blocks"></i></span><span></span><span class="world"><i class="mc mc-deepslate block" title="Generation"></i></span><span></span><span class="world"><i class="mc mc-filled_map" title="Worlds"></i></span><span></span><span class="world"><i class="mc mc-experience_bottle" title="Rewards &amp; Rules"></i></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span class="world"><i class="mc mc-note_block block" title="Effects &amp; Messages"></i></span><span></span><span class="world"><i class="mc mc-clock" title="Regrowth Queue"></i></span><span></span><span class="world"><i class="mc mc-book" title="Reload From Disk"></i></span><span></span><span class="world"><i class="mc mc-compass" title="Seeding Existing Chunks"></i></span><span></span>
+        </div>
+        <p class="menu-caption">This is the real menu, with the real items in it. Everything
+          the plugin does sits behind one of these eight buttons. Nothing here needs an anvil
+          or a sign to type into, so a Bedrock player sees what a Java player sees.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="blocks">
+    <div class="section-heading reveal">
+      <p class="eyebrow">VEIN BLOCKS</p>
+      <h2>Any block you like, paying whatever you say</h2>
+      <p>The plugin ships knowing nothing about a particular dimension, generator or server.
+        A vein block is just a material, a payout and a timer.</p>
+    </div>
+
+    <div class="bento">
+      <div class="bento-md card-surface reveal">
+        <i class="mc mc-nether_star card-kicker-icon" aria-hidden="true"></i><p class="card-kicker">TWO ROLES</p>
+        <h3>Vein and core</h3>
+        <p><b>Vein</b> blocks are the bulk of a seam, and they are what generation places.
+          <b>Core</b> blocks are the rare ones buried inside, and they usually pay a lot
+          more. They are the reason to keep digging once you have hit something.</p>
+      </div>
+
+      <div class="bento-md card-surface reveal" data-d="1">
+        <i class="mc mc-clock card-kicker-icon" aria-hidden="true"></i><p class="card-kicker">REGROWTH</p>
+        <h3>Each block has its own timer</h3>
+        <p>Every block type sets its own comeback time, and how much that time wanders either
+          side of it. Seams that came due while nobody was nearby return as soon as someone
+          walks back. A restart does not lose the queue.</p>
+      </div>
+
+      <div class="bento-lg card-surface reveal">
+        <span class="bento-num">220</span>
+        <h3>Blocks per break, at most</h3>
+        <p>A ceiling on how far one break is allowed to spread, so a seam can never run away
+          and drag the server down with it.</p>
+      </div>
+
+      <div class="bento-lg card-surface reveal" data-d="1">
+        <span class="bento-num">2</span>
+        <h3>Blocks of gap still count as one</h3>
+        <p>How far apart two blocks can sit and still count as one vein. Two or three is
+          plenty. Higher numbers make every single break check a lot more blocks.</p>
+      </div>
+
+      <div class="bento-lg card-surface reveal" data-d="2">
+        <span class="bento-num">1.75&times;</span>
+        <h3>At Fortune III</h3>
+        <p>Fortune adds a bit more per level, and you decide how much. Set it to zero and
+          enchantments stop counting at all.</p>
+      </div>
+
+      <div class="bento-md card-surface reveal">
+        <i class="mc mc-enchanted_book card-kicker-icon" aria-hidden="true"></i><p class="card-kicker">SILK TOUCH</p>
+        <h3>Blocks instead of XP</h3>
+        <p>Turn it on and Silk Touch drops the vein blocks themselves and pays nothing. They
+          still grow back, so it is never a way to strip a seam permanently.</p>
+      </div>
+
+      <div class="bento-md card-surface reveal" data-d="1">
+        <i class="mc mc-diamond_pickaxe card-kicker-icon" aria-hidden="true"></i><p class="card-kicker">TOOLS AND WEAR</p>
+        <h3>What it takes to work a seam</h3>
+        <p>Limit seams to certain tools, or leave the list empty and let bare hands work.
+          Durability can cost the usual single point per break, or one point per block, so a
+          forty-block seam actually wears your pickaxe down.</p>
+      </div>
+    </div>
+
+    <div class="split" style="margin-top:52px">
+      <div class="reveal">
+        <p class="eyebrow">ON DISK</p>
+        <h2>Or skip the menu and edit the file</h2>
+        <p style="color:var(--text-dim)">
+          You name each entry yourself. The material underneath is what players actually
+          swing at. The menu writes this file for you, though there is nothing stopping you
+          writing it by hand.
+        </p>
+        <p class="fine-print">Height band, weight and cluster size only matter when generation
+          is switched on. A block with no generation section still pops and still regrows.</p>
+      </div>
+
+      <div class="code-card reveal" data-d="1">
+        <span>ONE VEIN BLOCK</span>
+        <code>glow-seam:<br>
+&nbsp;&nbsp;material: LIGHT_BLUE_CONCRETE<br>
+&nbsp;&nbsp;display: "&amp;bGlow Seam"<br>
+&nbsp;&nbsp;xp: 3<br>
+&nbsp;&nbsp;regen-minutes: 60<br>
+&nbsp;&nbsp;regen-jitter-minutes: 10<br>
+&nbsp;&nbsp;role: VEIN<br>
+&nbsp;&nbsp;generation:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;weight: 100<br>
+&nbsp;&nbsp;&nbsp;&nbsp;min-y: -48<br>
+&nbsp;&nbsp;&nbsp;&nbsp;max-y: 40<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cluster-min: 5<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cluster-max: 16</code>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="generation">
+    <div class="section-heading reveal">
+      <i class="mc mc-deepslate card-kicker-icon block" aria-hidden="true"></i>
+      <p class="eyebrow">GENERATION</p>
+      <h2>Seams that come with the world</h2>
+      <p>Off until you turn it on. Once it is running, seams get placed into new chunks as
+        they generate. It only ever replaces blocks you have listed as replaceable, so caves,
+        ores and anything a player built stay exactly as they were.</p>
+    </div>
+
+    <div class="config-grid">
+      <div class="config-card card-surface reveal"><span class="config-icon">EXPOSED</span><p>The cluster has to touch open air, so veins turn up on cave walls and get found by exploring.</p></div>
+      <div class="config-card card-surface reveal" data-d="1"><span class="config-icon">BURIED</span><p>The cluster must not touch air, so every seam has to be dug out of solid rock.</p></div>
+      <div class="config-card card-surface reveal" data-d="2"><span class="config-icon">ANY</span><p>No exposure rule at all. Place them wherever the height band and weight allow.</p></div>
+    </div>
+
+    <div class="command-card reveal" style="margin-top:34px">
+      <code>/veins scatter &lt;radius&gt; [force]</code>
+      <span>Existing chunks are never touched. To seed a world that already exists, walk or fly
+        the area and scatter it &mdash; each chunk is <b>marked</b> so a second pass cannot
+        double the density.</span>
+    </div>
+
+    <p class="fine-print reveal">Scatter will not force-load anything. Doing that on a live
+      server stalls the main thread and every player feels it, so it only seeds the chunks
+      already loaded around you.</p>
+  </section>
+
+  <section class="section" id="worlds">
+    <div class="section-heading reveal">
+      <i class="mc mc-filled_map card-kicker-icon" aria-hidden="true"></i>
+      <p class="eyebrow">PER WORLD</p>
+      <h2>A global setting, and overrides only where you want them</h2>
+      <p>Any world can switch popping and generation on or off by itself, and scale both XP
+        and regrow time to taste. Leave a setting on <em>inherit</em> and that world simply
+        follows your global value.</p>
+    </div>
+
+    <div class="limits-table card-surface reveal">
+      <div class="limits-row up"><h3>The world's own entry</h3><p>Anything set under <code>world-overrides</code> for that world wins outright.</p></div>
+      <div class="limits-row mid"><h3>The global list</h3><p>Otherwise the <code>settings.worlds</code> list decides, which can be read as a whitelist or flipped to a blacklist.</p></div>
+      <div class="limits-row off"><h3>Everywhere</h3><p>An empty global list means every world on the server.</p></div>
+    </div>
+
+    <div class="split" style="margin-top:52px">
+      <div class="reveal">
+        <p class="eyebrow">MULTIPLIERS</p>
+        <h2>Better rates without a rank ladder</h2>
+        <p style="color:var(--text-dim)">
+          A world can pay double and grow back twice as fast. Separately, you can hand a
+          rank a better rate through a permission: the highest
+          <code>veins.multiplier.&lt;number&gt;</code> a player holds is the one that counts.
+          The plugin never has to know what your ranks are called.
+        </p>
+        <p class="fine-print">Leave a key out of a world override and that world simply follows
+          the global value. The Worlds menu writes the section for you.</p>
+      </div>
+
+      <div class="code-card reveal" data-d="1">
+        <span>WORLD OVERRIDES</span>
+        <code>world-overrides:<br>
+&nbsp;&nbsp;resource_world:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;enabled: true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;generation-enabled: true<br>
+&nbsp;&nbsp;&nbsp;&nbsp;xp-multiplier: 2.0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;regen-multiplier: 0.5<br>
+&nbsp;&nbsp;world_nether:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;enabled: false</code>
+        <p class="style-demo" style="font-size:.9rem">Double XP, and back twice as fast.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="settings">
+    <div class="section-heading reveal">
+      <p class="eyebrow">THE BLOCK EDITOR</p>
+      <h2>Every setting, and the item behind it</h2>
+      <p>One block type, opened up. The same controls appear for every block you add.</p>
+    </div>
+
+    <div class="menu-mock card-surface reveal" style="max-width:none;margin-bottom:34px" role="img"
+         aria-label="The block editor menu: a row of item icons, one per setting.">
+      <p class="menu-title">Exp Veins - glow-seam</p>
+      <div class="admin-grid">
+        <span><i class="mc mc-light_blue_concrete block" title="Material"></i></span>
+        <span><i class="mc mc-name_tag" title="Display Name"></i></span>
+        <span><i class="mc mc-experience_bottle" title="XP Per Block"></i></span>
+        <span><i class="mc mc-raw_iron" title="Role - vein"></i></span>
+        <span><i class="mc mc-clock" title="Regrow Time"></i></span>
+        <span><i class="mc mc-repeater" title="Regrow Jitter"></i></span>
+        <span><i class="mc mc-deepslate block" title="Generation"></i></span>
+        <span><i class="mc mc-cobblestone block" title="Cluster Minimum"></i></span>
+        <span><i class="mc mc-stone_bricks block" title="Cluster Maximum"></i></span>
+      </div>
+      <p class="menu-caption">One row holds everything about a single block. Left and right
+        click nudge a number up and down, shift jumps in bigger steps, and middle click lets
+        you type an exact value into chat.</p>
+    </div>
+
+    <div class="limits-table card-surface reveal">
+      <div class="limits-row up"><h3><i class="mc mc-experience_bottle"></i>Payout</h3><p>Straight into the XP bar, or dropped as orbs the vanilla way. Scaled by the world, the player's permissions and Fortune.</p></div>
+      <div class="limits-row mid"><h3><i class="mc mc-note_block block"></i>Effects</h3><p>Particles, sounds and the action bar, each switched independently.</p></div>
+      <div class="limits-row mid"><h3><i class="mc mc-name_tag"></i>Messages</h3><p>The pop message, wrong tool, no permission and the rest, with <code>%xp%</code>, <code>%blocks%</code> and <code>%vein%</code> to fill in.</p></div>
+      <div class="limits-row off"><h3><i class="mc mc-nether_star"></i>Core chance</h3><p>How often a core block turns up inside a generated cluster.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="commands">
+    <div class="section-heading reveal">
+      <p class="eyebrow">COMMANDS</p>
+      <h2>Six commands, and one you will actually use</h2>
+      <p>Everything sits under <code>/veins</code>, behind <code>veins.admin</code>.</p>
+    </div>
+
+    <div class="config-grid">
+      <div class="config-card card-surface reveal"><span class="config-icon">/veins gui</span><p>The live config menu. Everything is in here.</p></div>
+      <div class="config-card card-surface reveal" data-d="1"><span class="config-icon">/veins stats</span><p>What you have set up, and how many veins are waiting to come back in each world.</p></div>
+      <div class="config-card card-surface reveal" data-d="2"><span class="config-icon">/veins scatter</span><p>Seeds the chunks loaded around you, once each.</p></div>
+      <div class="config-card card-surface reveal"><span class="config-icon">/veins regen</span><p>Brings every waiting vein back right now, in one world or all of them.</p></div>
+      <div class="config-card card-surface reveal" data-d="1"><span class="config-icon">/veins give</span><p>Puts vein blocks in your hand so you can place them yourself.</p></div>
+      <div class="config-card card-surface reveal" data-d="2"><span class="config-icon">/veins reload</span><p>Re-read <code>config.yml</code> from disk.</p></div>
+    </div>
+
+    <div class="limits-table card-surface reveal" style="margin-top:34px">
+      <div class="limits-row up"><h3>veins.admin</h3><p>The config menu and every subcommand. Operators by default.</p></div>
+      <div class="limits-row mid"><h3>veins.mine</h3><p>Allowed to pop veins for XP. Everyone by default.</p></div>
+      <div class="limits-row off"><h3>veins.multiplier.&lt;n&gt;</h3><p>An XP multiplier, granted per rank. The highest one a player holds is the one that applies.</p></div>
+    </div>
+  </section>
+
+  <div class="install-panel" id="get">
+    <div>
+      <h2>Get Exp Veins Unleashed</h2>
+      <ol>
+        <li>Drop the jar into <code>plugins/</code> and start the server.</li>
+        <li>Run <code>/veins gui</code> and add a block. Nothing pops until you do.</li>
+        <li>Switch generation on if you want new chunks to carry seams. There is no step four.</li>
+      </ol>
+      <p class="fine-print">Exp Veins Unleashed is proprietary software. Builds are distributed
+        by the author; the source is not public and is not licensed for redistribution or
+        derivative works.</p>
+    </div>
+    <a class="button primary" href="https://github.com/ThConMan">Contact the author</a>
+  </div>
+
+</main>
+
+<footer>
+  <p class="footer-logo"><span>Exp Veins Unleashed</span></p>
+  <p>&copy; 2026 ThConMan. All rights reserved.</p>
+  <p>Requires Paper 26.1 or newer and Java 25. No runtime dependencies.</p>
+</footer>
+
+<script>
+(function () {
+  var bar = document.querySelector('.progress');
+  var nav = document.querySelector('.nav');
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.setProperty('--p', max > 0 ? h.scrollTop / max : 0);
+    nav.classList.toggle('is-stuck', h.scrollTop > 8);
+  }
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
